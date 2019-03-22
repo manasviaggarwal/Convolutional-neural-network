@@ -37,7 +37,7 @@ class CNN1:
         # print(Y)
         return Y
 #      def F1_score(self,testlabel,predictions):
-#         return ((f1_score(testlabel, predictions, average='macro')),(f1_score(testlabel, predictions, average='micro')))  
+#         return ((f1_score(testlabel, predictions, average='macro')),(f1_score(testlabel, predictions, average='micro')))	
     def unpickle(self,file):
         #import pickle
         with open(file, 'rb') as fo:
@@ -215,7 +215,7 @@ class CNN1:
                     a,b,c=sess.run([tf.get_default_graph().get_tensor_by_name("accuracy/Mean:0"),tf.get_default_graph().get_tensor_by_name("ArgMax:0"),tf.get_default_graph().get_tensor_by_name("Softmax/ArgMax:0")],feed_dict={tf.get_default_graph().get_tensor_by_name("X:0"):self.testset,tf.get_default_graph().get_tensor_by_name("y_true:0"):self.testlabel})
                  # print(np.array(b))
                     print("ACCURACY IS:",end=' ')
-                    # print(np.array(a))
+                    print(np.array(a))
                     print("F1-MICRO: ",end=' ')
 
                     f1_macro=(f1_score(np.array(c), np.array(b), average='macro'))
@@ -224,16 +224,16 @@ class CNN1:
                     print("F1-MACRO: ",end=' ')
                     print(f1_macro)
                 elif dataset=="CIFAR-10":
-                    _SAVE_PATH="cifar1/CF"
-                    checkpoint_path="cifar1/CF"
+                    _SAVE_PATH="cifar/CF"
+                    checkpoint_path="cifar/CF"
                     new_saver = tf.train.import_meta_graph(_SAVE_PATH+'.meta')
                     #new_saver.restore(sess, tf.train.latest_checkpoint('./'))
                     new_saver.restore(sess, save_path=_SAVE_PATH) #tf.train.latest_checkpoint('./'))
                     a,b,c,d=sess.run([tf.get_default_graph().get_tensor_by_name("accuracy/Mean:0"),tf.get_default_graph().get_tensor_by_name("ArgMax:0"),tf.get_default_graph().get_tensor_by_name("Softmax/ArgMax:0"),tf.get_default_graph().get_tensor_by_name("relu3/Relu:0")],feed_dict={tf.get_default_graph().get_tensor_by_name("X:0"):self.testset,tf.get_default_graph().get_tensor_by_name("y_true:0"):self.testlabel})
                  # print(np.array(b))
                     print("ACCURACY IS:",end=' ')
-                    # print(np.array(d))
-                    # print(np.array(a))
+                    print(np.array(d))
+                    print(np.array(a))
                     print("F1-MICRO: ",end=' ')
                     f1_macro=(f1_score(np.array(c), np.array(b), average='macro'))
                     f1_micro=(f1_score(np.array(c), np.array(b), average='micro'))
@@ -348,7 +348,7 @@ class CNN1:
                 num_epochs = 20
                 batch_size = 100
             elif dataset=="CIFAR-10":
-                num_epochs = 15
+                num_epochs = 20
                 batch_size = 100
 
 
@@ -421,8 +421,8 @@ class CNN1:
                     saver.save(sess, save_path=_SAVE_PATH)
                 elif dataset=="CIFAR-10":
                     saver = tf.train.Saver()
-                    _SAVE_PATH="cifar1/CF"
-                    checkpoint_path="cifar1/CF"
+                    _SAVE_PATH="cifar/CF"
+                    checkpoint_path="cifar/CF"
                     saver.save(sess, save_path=_SAVE_PATH)
                 sess.close()
                     
